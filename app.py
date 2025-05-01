@@ -82,13 +82,22 @@ def update_image():
 
     # Apply display mode
     if mode == 'red':
-        image = image.split()[0].convert('L')
+        r, g, b = image.split()
+        g = g.point(lambda _: 0)
+        b = b.point(lambda _: 0)
+        image = Image.merge('RGB', (r, g, b))
     elif mode == 'green':
-        image = image.split()[1].convert('L')
+        r, g, b = image.split()
+        r = r.point(lambda _: 0)
+        b = b.point(lambda _: 0)
+        image = Image.merge('RGB', (r, g, b))
     elif mode == 'blue':
-        image = image.split()[2].convert('L')
+        r, g, b = image.split()
+        r = r.point(lambda _: 0)
+        g = g.point(lambda _: 0)
+        image = Image.merge('RGB', (r, g, b))
     elif mode == 'gray':
-        image = image.convert('L')
+        image = image.convert('L').convert('RGB')  # Đảm bảo vẫn là ảnh RGB để đồng bộ xử lý
 
     # Xoá ảnh đã xử lý trước đó (không xoá ảnh gốc)
     clear_upload_folder(exclude=original_image_path)
